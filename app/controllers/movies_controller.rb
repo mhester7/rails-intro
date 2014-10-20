@@ -8,8 +8,11 @@ class MoviesController < ApplicationController
 
   def index
     # title = params[:title]
-    title = params[:title]
-    @movies = Movie.order(title)
+	  debugger
+    if params[:title] then
+    	@movies = Movie.order(:title)
+    	#redirect_to movies_path(@movies)
+    end
     # release_date = params[:release_date]
     #@movies = Movie.order('release_date ASC')
     #redirect_to movie_path
