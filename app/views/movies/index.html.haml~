@@ -5,7 +5,6 @@
   %thead
     %tr
       %th Movie Title
-      = @movie.order(movie)
       %th Rating
       %th Release Date
       %th More Info
