@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
     @movies = Movie.order('title ASC')
     # release_date = params[:release_date]
     #@movies = Movie.order('release_date ASC')
-    redirect_to movie_path(@movies)
+    redirect_to movie_path
   end
 
   def new
