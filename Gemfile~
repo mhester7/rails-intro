@@ -29,9 +29,6 @@ end
 gem 'jquery-rails'
 gem 'haml'
 
-group :development, :test do
-	gem 'debugger'
-  end
 # Use unicorn as the web server
 # gem 'unicorn'
 
