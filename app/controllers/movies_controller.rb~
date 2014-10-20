@@ -8,9 +8,9 @@ class MoviesController < ApplicationController
 
   def index
     # title = params[:title]
-    @movies = Movie.order('title')
+    @movies = Movie.order('title ASC')
     # release_date = params[:release_date]
-    @movies = Movie.order('release_date')
+    @movies = Movie.order('release_date ASC')
   end
 
   def new

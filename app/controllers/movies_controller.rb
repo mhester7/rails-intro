@@ -9,8 +9,10 @@ class MoviesController < ApplicationController
   def index
     # title = params[:title]
     @movies = Movie.order('title ASC')
+    redirect_to movies_path
     # release_date = params[:release_date]
     @movies = Movie.order('release_date ASC')
+    redirect_to movies_path
   end
 
   def new
