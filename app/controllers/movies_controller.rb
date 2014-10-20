@@ -7,6 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
+    @movies = Movie.all
     # title = params[:title]
 	  #debugger
 	  #raise params.inspect

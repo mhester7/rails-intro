@@ -9,9 +9,9 @@ class MoviesController < ApplicationController
   def index
     # title = params[:title]
 	  #debugger
-	  raise params.inspect
+	  #raise params.inspect
     #if params[:title] then
-    	@movies = Movie.order(:title)
+    	#@movies = Movie.order(:title)
     	#redirect_to movies_path(@movies)
     #end
     # release_date = params[:release_date]
