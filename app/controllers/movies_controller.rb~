@@ -8,8 +8,9 @@ class MoviesController < ApplicationController
 
   def index
     # title = params[:title]
-	  debugger
-    if params[:title] then
+	  #debugger
+	  raise params.inspect
+    #if params[:title] then
     	@movies = Movie.order(:title)
     	#redirect_to movies_path(@movies)
     end

@@ -10,10 +10,10 @@ class MoviesController < ApplicationController
     # title = params[:title]
 	  #debugger
 	  raise params.inspect
-    if params[:title] then
+    #if params[:title] then
     	@movies = Movie.order(:title)
     	#redirect_to movies_path(@movies)
-    end
+    #end
     # release_date = params[:release_date]
     #@movies = Movie.order('release_date ASC')
     #redirect_to movie_path
