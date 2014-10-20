@@ -7,8 +7,10 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.order('title')
-    @movies = Movie.order('release_date')
+    title = params[:title]
+    @movies = Movie.order(title)
+    release_date = params[:release_date]
+    @movies = Movie.order(release_date)
   end
 
   def new
