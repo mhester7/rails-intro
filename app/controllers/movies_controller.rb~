@@ -12,14 +12,14 @@ class MoviesController < ApplicationController
 	  if params[:sort_by] == "title"
 	  	@movies = Movie.find(:all, :order => "title")
 			@tit_class = 'hilite'
-			@title_header = 'title_header'
+			#@title_header = 'title_header'
 	  else
 	  	@movies = Movie.all
 	  end
 	  
 	  if params[:sort_by] == "release_date"
 	  	@movies = Movie.find(:all, :order => "release_date")
-			@header = 'release_date_header'
+			#@header = 'release_date_header'
 			@rel_class = 'hilite'
 	  else
 	  	@movies = Movie.all
