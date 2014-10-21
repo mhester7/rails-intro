@@ -7,13 +7,17 @@ class MoviesController < ApplicationController
   end
 
   def index
-    @movies = Movie.all
+    #raise params.inspect
     # title = params[:title]
 	  #debugger
-	  #raise params.inspect
-    #if params[:title] then
-    	#@movies = Movie.order(:title)
-    	#redirect_to movies_path(@movies)
+	  if params[:sort_by] == "title"
+	  	@movies = Movie.find(:all, :order => "title")
+	  elsif params[:sort_by] == "release_date"
+	  	@movies = Movie.find(:all, :order => "release_date")
+	  else
+	  	@movies = Movie.all
+	  end
+	  #redirect_to movies_path
     #end
     # release_date = params[:release_date]
     #@movies = Movie.order('release_date ASC')
