@@ -4,9 +4,9 @@
 %table#movies
   %thead
     %tr
-      %th= link_to 'Movie Title', movies_path({sort_by: "title"})
+      %th{id: @title_header, class: @class}= link_to 'Movie Title', movies_path({sort_by: "title"})
       %th Rating
-      %th= link_to 'Release Date', movies_path({sort_by: "release_date"})
+      %th{id: @header, class: @class}= link_to 'Release Date', movies_path({sort_by: "release_date"})
       %th More Info
   %tbody
     - @movies.each do |movie|
@@ -17,4 +17,4 @@
         %td= link_to "More about #{movie.title}", movie_path(movie)
 
 = link_to 'Add new movie', new_movie_path
-= debug(@movies)
+-#= debug(@movies)	//to debug
