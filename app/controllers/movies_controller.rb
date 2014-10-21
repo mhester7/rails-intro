@@ -9,6 +9,9 @@ class MoviesController < ApplicationController
   end
 
   def index
+	  @all_ratings = Movie.all_ratings
+	  
+	  
 	  if params[:sort_by] == "title"
 	  	@movies = Movie.find(:all, :order => "title")
 			@tit_class = 'hilite'

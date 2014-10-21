@@ -17,7 +17,7 @@ class MoviesController < ApplicationController
 	  	@movies = Movie.find(:all, :order => "release_date")
 			#@header = 'release_date_header'
 			@rel_class = 'hilite'
-	  elsif params == nil
+	  else
 	  	@movies = Movie.all
 	  end
 
