@@ -7,8 +7,7 @@ class MoviesController < ApplicationController
   end
 
   def index
-	  #debugger
-  	if params[:sort_by] == "title"
+	  if params[:sort_by] == "title"
 	  	@movies = Movie.find(:all, :order => "title")
 			@tit_class = 'hilite'
 			@title_header = 'title_header'
@@ -23,11 +22,7 @@ class MoviesController < ApplicationController
 	  else
 	  	@movies = Movie.all
 	  end
-	  #redirect_to movies_path
-    #end
-    # release_date = params[:release_date]
-    #@movies = Movie.order('release_date ASC')
-    #redirect_to movie_path
+
   end
 
   def new
