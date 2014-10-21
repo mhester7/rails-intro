@@ -11,6 +11,12 @@ class MoviesController < ApplicationController
   def index
 	  @all_ratings = Movie.all_ratings
 	  
+	  rate = params[:ratings]
+	  logger.debug(rate)
+	  if rate["G"] == "1" #params[:commit] == "Refresh" #params[:ratings] = {"G" => "1"} # && params.key?("G")
+	  	@movies = Movie.where(:rating => 'G')
+	  	#find(:all, :conditions => { :rating => ["G"]})
+	  end
 	  
 	  if params[:sort_by] == "title"
 	  	@movies = Movie.find(:all, :order => "title")
