@@ -4,8 +4,8 @@ class MoviesController < ApplicationController
     id = params[:id] # retrieve movie ID from URI route
     @movie = Movie.find(id) # look up movie by unique ID
     # will render app/views/movies/show.<extension> by default
-    rating = params[:rating]
-    @all_ratings = Rating.find(rating)
+    #rating = params[:rating]
+    #@all_ratings = Rating.find(rating)
   end
 
   def index
@@ -13,15 +13,11 @@ class MoviesController < ApplicationController
 	  	@movies = Movie.find(:all, :order => "title")
 			@tit_class = 'hilite'
 			#@title_header = 'title_header'
-	  else
-	  	@movies = Movie.all
-	  end
-	  
-	  if params[:sort_by] == "release_date"
+	  elsif params[:sort_by] == "release_date"
 	  	@movies = Movie.find(:all, :order => "release_date")
 			#@header = 'release_date_header'
 			@rel_class = 'hilite'
-	  else
+	  elsif params == nil
 	  	@movies = Movie.all
 	  end
 
