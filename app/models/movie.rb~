@@ -5,10 +5,15 @@ class Movie < ActiveRecord::Base
   	ratings = []
   	Movie.all.each do |movie|
   		if ratings.include?(movie.rating) == false
-  			ratings.push(movie.rating).sort
+  			ratings.push(movie.rating)
   		end
   	end
-  	return ratings
+  	return ratings.sort
   end
-  	
+	def self.only
+		ratings = []
+		#if Movie.find(:all, :conditions => {rating: "G"}) == true
+			return ratings = "G"
+		#end
+	end
 end

@@ -10,5 +10,4 @@ class Movie < ActiveRecord::Base
   	end
   	return ratings.sort
   end
-  	
 end

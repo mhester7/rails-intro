@@ -9,16 +9,55 @@ class MoviesController < ApplicationController
   end
 
   def index
-	  @all_ratings = Movie.all_ratings
-	  
-	  rate = params[:ratings]
-	  logger.debug(rate)
-	  if rate["G"] == "1" #params[:commit] == "Refresh" #params[:ratings] = {"G" => "1"} # && params.key?("G")
-	  	@movies = Movie.where(:rating => 'G')
-	  	#find(:all, :conditions => { :rating => ["G"]})
-	  end
-	  
-	  if params[:sort_by] == "title"
+  #G
+	  if params[:ratings] == {"G"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.find(:all, :conditions => {rating: "G"})#Movie.all
+	  	@checked = true
+	#G, PG  	
+	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ?", "G","PG") #.order("title ASC")
+	  	@checked = true
+	#G, PG, PG-13
+	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ? OR rating = ?", "G","PG","PG-13") #.order("title ASC")
+	  	@checked = true
+	#G, PG, PG-13, R
+	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0", "PG-13"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ? OR rating = ? OR rating = ?", "G","PG","PG-13","R") #.order("title ASC")
+	  	@checked = true
+	#G, PG-13
+	  elsif params[:ratings] == {"G"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ?", "G","PG-13") #.order("title ASC")
+	  	@checked = true
+	#G, R
+	  elsif params[:ratings] == {"G"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ?", "G","R") #.order("title ASC")
+	  	@checked = true
+	#PG
+	  elsif params[:ratings] == {"PG"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ?", "PG") #.order("title ASC")
+	  	@checked = true
+	#PG, PG-13
+	  elsif params[:ratings] == {"PG"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ?", "PG","PG-13") #.order("title ASC")
+	  	@checked = true
+	#PG, R
+	  elsif params[:ratings] == {"PG"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ?", "PG","R") #.order("title ASC")
+	  	@checked = true
+	#PG-13
+	  elsif params[:ratings] == {"PG-13"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ?", "PG-13") #.order("title ASC")
+	  	@checked = true
+	#PG-13, R	
+	  elsif params[:ratings] == {"PG-13"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ?", "PG-13","R") #.order("title ASC")
+	  	@checked = true
+	#PG-13, R	
+	  elsif params[:ratings] == {"R"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? ", "R") #.order("title ASC")
+	  	@checked = true
+	  elsif params[:sort_by] == "title"
 	  	@movies = Movie.find(:all, :order => "title")
 			@tit_class = 'hilite'
 			#@title_header = 'title_header'
@@ -28,7 +67,10 @@ class MoviesController < ApplicationController
 			@rel_class = 'hilite'
 	  else
 	  	@movies = Movie.all
+ 		  @all_ratings = Movie.all_ratings
+ 		  @checked = true
 	  end
+	  @all_ratings = Movie.all_ratings
 
   end
 
