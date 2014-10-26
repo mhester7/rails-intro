@@ -41,6 +41,10 @@ class MoviesController < ApplicationController
 	  elsif params[:ratings] == {"PG"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.where("rating = ? OR rating = ?", "PG","PG-13") #.order("title ASC")
 	  	@checked = true
+	#PG, PG-13, R
+	  elsif params[:ratings] == {"PG"=>"0", "PG-13"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ? OR rating = ?", "PG","PG-13", "R") #.order("title ASC")
+	  	@checked = true
 	#PG, R
 	  elsif params[:ratings] == {"PG"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.where("rating = ? OR rating = ?", "PG","R") #.order("title ASC")
