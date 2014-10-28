@@ -14,7 +14,7 @@ class MoviesController < ApplicationController
 	  if params[:ratings] == {"G"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.find(:all, :conditions => {rating: "G"})#Movie.all
 			session[:rating] = params[:ratings]
-			session[:movies] = @movies
+			#session[:movies] = @movies
 	#G, PG  	
 	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.where("rating = ? OR rating = ?", "G","PG") #.order("title ASC")
@@ -66,17 +66,19 @@ class MoviesController < ApplicationController
 	  elsif params[:sort_by] == "title"
 	  	@movies = Movie.find(:all, :order => "title")
 			@tit_class = 'hilite'
-			session[:rating] = params[:ratings]
+			#session[:rating] = params[:ratings]
 	  elsif params[:sort_by] == "release_date"
 	  	@movies = Movie.find(:all, :order => "release_date")
+			logger.debug(params[:rating])
 			session[:rating] = params[:ratings]
 			@rel_class = 'hilite'
 	  else
 	  	@movies = Movie.all
  		  @all_ratings = Movie.all_ratings
- 		  @checked = true
+	  	session[:rating] = {"G"=>"0", "PG"=>"0", "PG-13"=>"0", "R"=>"0"}
 	  end
 	  @all_ratings = Movie.all_ratings
+	  #session[:rating] = {"G"=>"0", "PG"=>"0", "PG-13"=>"0", "R"=>"0"}
 
   end
 
