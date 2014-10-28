@@ -14,7 +14,8 @@ class MoviesController < ApplicationController
   #G
 	  if params[:ratings] == {"G"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.find(:all, :conditions => {rating: "G"})#Movie.all
-	  	session[:set_rate] = "G"
+			session[:set_rate] = "G"
+	  	session[:set_rate] = params[:set_rate]
 	  	@checked = true
 	  	logger.debug(session[:set_rate])
 	#G, PG  	
