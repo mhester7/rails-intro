@@ -9,10 +9,14 @@ class MoviesController < ApplicationController
   end
 
   def index
+  
+  logger.debug(session[:session_id])
   #G
 	  if params[:ratings] == {"G"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.find(:all, :conditions => {rating: "G"})#Movie.all
+	  	session[:set_rate] = "G"
 	  	@checked = true
+	  	logger.debug(session[:set_rate])
 	#G, PG  	
 	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.where("rating = ? OR rating = ?", "G","PG") #.order("title ASC")
@@ -40,6 +44,10 @@ class MoviesController < ApplicationController
 	#PG, PG-13
 	  elsif params[:ratings] == {"PG"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.where("rating = ? OR rating = ?", "PG","PG-13") #.order("title ASC")
+	  	@checked = true
+	#PG, PG-13, R
+	  elsif params[:ratings] == {"PG"=>"0", "PG-13"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
+	  	@movies = Movie.where("rating = ? OR rating = ? OR rating = ?", "PG","PG-13", "R") #.order("title ASC")
 	  	@checked = true
 	#PG, R
 	  elsif params[:ratings] == {"PG"=>"0", "R"=>"0"} && params[:commit] == "Refresh"

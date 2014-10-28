@@ -9,10 +9,15 @@ class MoviesController < ApplicationController
   end
 
   def index
+  
+  logger.debug(session[:session_id])
   #G
 	  if params[:ratings] == {"G"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.find(:all, :conditions => {rating: "G"})#Movie.all
+			session[:set_rate] = "G"
+	  	@rate = session[:set_rate]
 	  	@checked = true
+	  	logger.debug(session[:set_rate])
 	#G, PG  	
 	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0"} && params[:commit] == "Refresh"
 	  	@movies = Movie.where("rating = ? OR rating = ?", "G","PG") #.order("title ASC")
