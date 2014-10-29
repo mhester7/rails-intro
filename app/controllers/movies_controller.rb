@@ -9,77 +9,32 @@ class MoviesController < ApplicationController
   end
 
   def index
-  
-  #G
-	  if params[:ratings] == {"G"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.find(:all, :conditions => {rating: "G"})#Movie.all
-			session[:rating] = params[:ratings]
-			#session[:movies] = @movies
-	#G, PG  	
-	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ?", "G","PG") #.order("title ASC")
-	  	session[:rating] = params[:ratings]
-	#G, PG, PG-13
-	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ? OR rating = ?", "G","PG","PG-13") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#G, PG, PG-13, R
-	  elsif params[:ratings] == {"G"=>"0", "PG"=>"0", "PG-13"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ? OR rating = ? OR rating = ?", "G","PG","PG-13","R") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#G, PG-13
-	  elsif params[:ratings] == {"G"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ?", "G","PG-13") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#G, R
-	  elsif params[:ratings] == {"G"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ?", "G","R") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#PG
-	  elsif params[:ratings] == {"PG"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ?", "PG") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#PG, PG-13
-	  elsif params[:ratings] == {"PG"=>"0", "PG-13"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ?", "PG","PG-13") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#PG, PG-13, R
-	  elsif params[:ratings] == {"PG"=>"0", "PG-13"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ? OR rating = ?", "PG","PG-13", "R") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#PG, R
-	  elsif params[:ratings] == {"PG"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ?", "PG","R") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#PG-13
-	  elsif params[:ratings] == {"PG-13"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ?", "PG-13") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	#PG-13, R	
-	  elsif params[:ratings] == {"PG-13"=>"0", "R"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? OR rating = ?", "PG-13","R") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	# R	
-	  elsif params[:ratings] == {"R"=>"0"} && params[:commit] == "Refresh"
-	  	@movies = Movie.where("rating = ? ", "R") #.order("title ASC")
-			session[:rating] = params[:ratings]
-	  elsif params[:sort_by] == "title"
-	  	@movies = Movie.find(:all, :order => "title")
-			@tit_class = 'hilite'
-			#session[:rating] = params[:ratings]
-	  elsif params[:sort_by] == "release_date"
-	  	@movies = Movie.find(:all, :order => "release_date")
-			logger.debug(session[:rating])
-			#session[:rating] = params[:ratings]
-			@rel_class = 'hilite'
-	  else
+	 		
+	case		
+		when params[:ratings] == nil && params[:title] == nil && params[:sort_by] == nil
+			@checked = {"G"=>"1", "PG"=>"1", "PG-13"=>"1", "R"=>"1"}
 	  	@movies = Movie.all
  		  @all_ratings = Movie.all_ratings
-	  	session[:rating] = {"G"=>"0", "PG"=>"0", "PG-13"=>"0", "R"=>"0"}
-	  end
-	  @all_ratings = Movie.all_ratings
-	  #session[:rating] = {"G"=>"0", "PG"=>"0", "PG-13"=>"0", "R"=>"0"}
-
+		when params[:ratings] != nil
+			session[:ratings] = @checked = params[:ratings]
+			mine = []
+			@checked.each do |key,value|
+				mine.push(key)
+			end
+			session[:mine] = mine
+			@movies = Movie.where(rating: [session[:mine]])
+			@all_ratings = Movie.all_ratings	
+		when params[:sort_by] == "title" && session[:ratings] != nil
+			@movies = Movie.where(rating: [session[:mine]]).order("title")
+			@tit_class = 'hilite'
+			@all_ratings = Movie.all_ratings
+			@checked = session[:ratings]
+		when params[:sort_by] == "release_date" && session[:ratings] != nil
+			@movies = Movie.where(rating: [session[:mine]]).order("release_date")
+			@rel_class = 'hilite'
+			@all_ratings = Movie.all_ratings
+			@checked = session[:ratings]
+		end	
   end
 
   def new
