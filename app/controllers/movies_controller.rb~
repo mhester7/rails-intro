@@ -24,43 +24,21 @@ class MoviesController < ApplicationController
 			session[:mine] = mine
 			@movies = Movie.where(rating: [session[:mine]])
 			@all_ratings = Movie.all_ratings
-			debugger	
+			flash.keep(@checked)
+			redirect_to movies_path	
 		when params[:sort_by] == "title" && session[:ratings] != nil
 			@movies = Movie.where(rating: [session[:mine]]).order("title")
 			@tit_class = 'hilite'
 			@all_ratings = Movie.all_ratings
 			@checked = session[:ratings]
-			#@checked = session[:ratings]
+			#redirect_to movies_path
 		when params[:sort_by] == "release_date" && session[:ratings] != nil
 			@movies = Movie.where(rating: [session[:mine]]).order("release_date")
 			@rel_class = 'hilite'
 			@all_ratings = Movie.all_ratings
 			@checked = session[:ratings]
+			#redirect_to movies_path
 		end	
-		logger.debug(session[:mine])
-		logger.debug(session[:ratings])
-=begin
-		if params[:ratings] == {}
-			@checked = {"G"=>"1", "PG"=>"1", "PG-13"=>"1", "R"=>"1"}
-		elsif params[:commit]
-			session[:rating] = @checked = params[:ratings]
-			
-			logger.debug(@checked)
-	  
-	  elsif params[:sort_by] == "title"
-	  	@movies = Movie.find(:all, :order => "title")
-			@tit_class = 'hilite'
-	  elsif params[:sort_by] == "release_date"
-	  	@movies = Movie.find(:all, :order => "release_date")
-			@rel_class = 'hilite'
-	  else
-	  	@movies = Movie.all
- 		  @all_ratings = Movie.all_ratings
-	  	@checked = {"G"=>"1", "PG"=>"1", "PG-13"=>"1", "R"=>"1"}	  	
-	  end
-	  #@all_ratings = Movie.all_ratings	
-		#@checked = {"G"=>"1", "PG"=>"1", "PG-13"=>"1", "R"=>"1"}	
-=end
   end
 
   def new
