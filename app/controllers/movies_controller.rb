@@ -10,55 +10,31 @@ class MoviesController < ApplicationController
 
   def index
 	
-	sort_by = params[:sort_by] || session[:sort_by]
-	case sort_by
-		when "title"
-			ordered = {:order => :title}
-			#@movies = Movie.where(rating: [session[:mine]]).order(:title)
-			@tit_class = 'hilite'
-		when "release_date"
-			ordered = {:order => :release_date}
-			#@movies = Movie.where(rating: [session[:mine]]).order(:release_date)
-			@rel_class = 'hilite'						
-	end
+		sort_by = params[:sort_by] || session[:sort_by]
 	
-	@all_ratings = Movie.all_ratings
-	@checked = params[:ratings] || session[:ratings] || {}
-	if @checked == {}
-		@checked = Hash[@all_ratings.map {|rating| [rating, rating]}]
-	end
-	
-	if params[:ratings] != session[:ratings] or params[:sort_by] != session[:sort_by]
-		session[:sort_by] = sort_by
-		session[:ratings] = @checked
-		redirect_to :sort_by => sort_by, :ratings => @checked and return
-	end
-		@movies = Movie.find_all_by_rating(@checked.keys, ordered)
-	
-=begin
-	case	
-		when params[:ratings] != nil
-			session[:ratings] = @checked = params[:ratings]
-			mine = []
-			@checked.each do |key,value|
-				mine.push(key)
-			end
-			session[:mine] = mine
-			@movies = Movie.where(rating: [session[:mine]])
-			#@all_ratings = Movie.all_ratings
-		#when params[:sort_by] == "title" && session[:ratings] != nil
-			#@movies = Movie.where(rating: [session[:mine]]).order(:title)
-			#@tit_class = 'hilite'
-			#this won't work here....hmmm  sort_by = session[:sort_by] = params[:sort_by]
-			#@all_ratings = Movie.all_ratings
-			#@checked = session[:ratings]
-		#when params[:sort_by] == "release_date" && session[:ratings] != nil
-			#@movies = Movie.where(rating: [session[:mine]]).order(:release_date)
-			#@rel_class = 'hilite'		
-			#@all_ratings = Movie.all_ratings
-			#@checked = session[:ratings]
+		case sort_by
+			when "title"
+				ordered = {:order => :title}
+				@tit_class = 'hilite'
+			when "release_date"
+				ordered = {:order => :release_date}
+				@rel_class = 'hilite'						
 		end
-=end
+	
+		@all_ratings = Movie.all_ratings
+		@checked = params[:ratings] || session[:ratings] || {}
+		
+		if @checked == {}
+			@checked = Hash[@all_ratings.map {|rating| [rating, rating]}]
+		end
+	
+		if params[:ratings] != session[:ratings] or params[:sort_by] != session[:sort_by]
+			session[:sort_by] = sort_by
+			session[:ratings] = @checked
+			redirect_to :sort_by => sort_by, :ratings => @checked and return
+		end
+			@movies = Movie.find_all_by_rating(@checked.keys, ordered)
+	
   end
 
   def new
